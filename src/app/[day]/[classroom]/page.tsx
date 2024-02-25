@@ -1,6 +1,8 @@
 import { getXataClient } from "@/lib/db";
 import { notFound } from "next/navigation";
 const xata = getXataClient();
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export default async function Day({
   params,
@@ -9,7 +11,7 @@ export default async function Day({
 }) {
   let classroom_name = params.classroom;
   let today = params.day;
-  let today_date = new Date(`${today}T13:00:00.000Z`);
+  let today_date = new Date(`${today}T12:00:00.000Z`);
   let today_end = new Date(today_date.getTime() + 14 * 36e5);
 
   let classroom = await xata.db.classroom
@@ -23,7 +25,7 @@ export default async function Day({
   }
 
   let eventsPage = await xata.db.event
-    .select(["*", "classroom.*", "course.name", "course.code", "host.name"])
+    .select(["*", "classroom.id", "course.name", "course.code", "host.name"])
     .filter({
       $all: [
         {
@@ -46,6 +48,57 @@ export default async function Day({
       consistency: "eventual",
     });
 
+  console.log(eventsPage.records);
+
+  let _events: {
+    start: number;
+    end: number;
+    data: (typeof eventsPage.records)[0] | null;
+  }[] = [];
+
+  // from 7:00 to 21:00
+  let i = 7;
+  while (i <= 21) {
+    let existsEvent = eventsPage.records.find((e) => {
+      if (!!e.end && !!e.start) {
+        return (
+          Number(
+            e.start
+              ?.toLocaleTimeString("es-PE", {
+                hour: "numeric",
+                hour12: false,
+              })
+              .split(":")[0]
+          ) === i
+        );
+      }
+    });
+
+    if (existsEvent) {
+      let long = Math.abs(
+        existsEvent.end?.getTime()! - existsEvent.start?.getTime()!
+      );
+      _events.push({
+        start: i,
+        end: i + long / 36e5,
+        data: existsEvent,
+      });
+
+      i += long / 36e5;
+    }
+
+    if (!existsEvent) {
+      _events.push({
+        start: i,
+        end: i + 1,
+        data: null,
+      });
+      i++;
+    }
+  }
+
+  console.log(_events);
+
   let yesterday_date = new Date(today_date);
   yesterday_date.setDate(yesterday_date.getDate() - 1);
   let yesterday = yesterday_date.toISOString().split("T")[0];
@@ -54,94 +107,45 @@ export default async function Day({
   tomorrow_date.setDate(tomorrow_date.getDate() + 1);
   let tomorrow = tomorrow_date.toISOString().split("T")[0];
 
-  let events = eventsPage.records;
-
-  let hours_to_hide: number[] = [];
-  events.forEach((e) => {
-    if (!!e.end && !!e.start) {
-      // @ts-ignore
-      let long = Math.abs(e.end - e.start) / 36e5;
-
-      if (long > 1) {
-        for (let i = 1; i < long; i++) {
-          hours_to_hide = [
-            ...hours_to_hide,
-            Number(
-              new Date(e.start.getTime() + i * 36e5).toLocaleTimeString(
-                "es-PE",
-                {
-                  hour: "2-digit",
-                  hour12: false,
-                }
-              )
-            ),
-          ];
-        }
-      }
-    }
-  });
-
   return (
-    <div
-      style={{ gridTemplateRows: "repeat(15, minmax(0, 1fr))" }}
-      className="relative grid grow gap-2 min-h-[800px] my-8"
-    >
-      {events.map((event) => {
-        const start =
-          Number(
-            event.start
-              ?.toLocaleTimeString("es-PE", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-              .split(":")[0]
-          ) - 7;
-        const end =
-          Number(
-            event.end
-              ?.toLocaleTimeString("es-PE", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-              .split(":")[0]
-          ) - 7;
-
-        return (
-          <div
-            key={event.id}
-            style={{ gridRowStart: start, gridRowEnd: end }}
-            className="rounded-lg flex bg-gray-200 items-center justify-center mx-2 mt-1.5"
-          >
-            <div className="z-5 w-2/3 text-center py-2">
-              <p style={{ overflowWrap: "break-word" }} className="font-bold">
-                {event.name || event.course?.name}
-              </p>
-              <div className="flex items-center justify-center text-xs space-x-4">
-                {event.course && <span>{event.course.code}</span>}
-                {event.host && <span>{event.host.name}</span>}
-              </div>
-            </div>
+    <div className="grid grid-rows-14 my-8 gap-1">
+      {_events.map(({ start, end, data }) => (
+        <div
+          key={start}
+          className={cn(
+            "rounded-lg mx-2 border relative p-2 group",
+            { "row-span-1": end - start === 1 },
+            { "row-span-2": end - start === 2 },
+            { "row-span-3": end - start === 3 },
+            { "bg-secondary": data !== null }
+          )}
+        >
+          <div className="absolute -top-4 left-0">
+            <Badge variant="outline" className="bg-white">
+              {String(start).padStart(2, "0") + ":00"}
+            </Badge>
           </div>
-        );
-      })}
-      <div
-        style={{ gridTemplateRows: "repeat(15, minmax(0, 1fr))" }}
-        className="absolute top-0 bottom-0 right-0 left-0 grid gap-2 -z-5"
-      >
-        {new Array(14).fill(0).map((_, i) => (
-          <div
-            key={i}
-            className={`relative data-[hide=true]:opacity-0 ${
-              hours_to_hide.includes(i + 8) && "hidden"
-            }`}
-          >
-            <div className="ml-2 absolute -top-3 border h-6 w-16 rounded-full text-gray-700 bg-white flex items-center justify-center text-sm z-10">
-              {String(i + 8).padStart(2, "0")}:00
-            </div>
-            <div className="absolute right-0 left-0 h-px bg-gray-200 z-0" />
+          <div>
+            <p className="font-bold text-lg">
+              {data?.name || data?.course?.name}
+            </p>
+            <p
+              className={cn({
+                "text-background group-hover:text-muted-foreground": data === null,
+              })}
+            >
+              {data?.host?.name || "Freeee"}
+            </p>
           </div>
-        ))}
-      </div>
+          {end === 22 && (
+            <div className="absolute -bottom-4 left-0">
+              <Badge variant="outline" className="bg-white">
+                {String(end).padStart(2, "0") + ":00"}
+              </Badge>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
