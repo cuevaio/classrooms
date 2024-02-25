@@ -3,7 +3,9 @@ import { getXataClient } from "@/lib/db";
 
 const xata = getXataClient();
 
-export async function getFreeClassrooms(day_start: Date) {
+export async function getFreeClassrooms(day: string) {
+  let day_start = new Date(`${day}T13:00:00.000Z`);
+
   let free = await Promise.all(
     new Array(13).fill(0).map(async (_, i) => {
       let desired_start = new Date(day_start);
@@ -105,5 +107,6 @@ export async function getFreeClassrooms(day_start: Date) {
     yesterday: yesterday.toISOString().split("T")[0],
     today: day_start.toISOString().split("T")[0],
     tomorrow: tomorrow.toISOString().split("T")[0],
+    today_date: day_start,
   };
 }
