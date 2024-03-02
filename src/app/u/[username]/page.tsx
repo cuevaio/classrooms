@@ -20,6 +20,8 @@ import {
   StarIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
 
 interface UserPageProps {
   params: {
@@ -29,6 +31,25 @@ interface UserPageProps {
 
 export default async function Page({ params }: UserPageProps) {
   const { username } = params;
+
+  const _classes = [
+    {
+      id: "1",
+      name: "Repaso de Derivadas",
+      price: 10,
+      course: "Cálculo I",
+      thumbnail:
+        "https://i.ytimg.com/vi/mNhhOD3s6vs/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCKEWC3JSbUJgdRAZSNUgB9YSQqUg",
+    },
+    {
+      id: "2",
+      name: "Repaso de Integrales",
+      price: 20,
+      course: "Cálculo II",
+      thumbnail:
+        "https://i.ytimg.com/vi/rvW0ZrRDyd0/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDjD1eHcX6OL6lmBAe33SI-9co9rw",
+    },
+  ];
 
   return (
     <div className="">
@@ -76,6 +97,45 @@ export default async function Page({ params }: UserPageProps) {
         </div>
         <p className="font-medium text-sm">@cuevantn</p>
       </div>
+
+      <div className="px-4 py-2 space-y-1">
+        <h2 className="font-bold">Clases</h2>
+        <div className="px-8 flex flex-col items-center justify-center w-full">
+          <Carousel className="w-full">
+            <CarouselContent>
+              {_classes.map((_class, index) => (
+                <CarouselItem key={index}>
+                  <div className="">
+                    <Card>
+                      <CardContent className="p-0">
+                        <AspectRatio ratio={16 / 9} className="bg-muted">
+                          <Image
+                            src={_class.thumbnail}
+                            fill
+                            alt="Class thumbnail"
+                            className="object-cover rounded-t-lg"
+                          />
+                        </AspectRatio>
+                        <div className="bg-secondary p-2">
+                          <p className="text-lg font-semibold">
+                            {_class.name} {index + 1}
+                          </p>
+                          <p>
+                            S/{_class.price} <span>/hora</span>
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </div>
+
       <div className="px-4 py-2">
         <h2 className="font-bold">Sobre mí</h2>
         <p className="text-sm">
@@ -110,32 +170,6 @@ export default async function Page({ params }: UserPageProps) {
             <span>4 cursos</span>
           </div>
         </div>
-      </div>
-
-      <div className="px-4 py-2 flex flex-col items-center justify-center">
-        <h2 className="font-bold">Cursos</h2>
-        <Carousel className="w-2/3">
-          <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <CarouselItem key={index}>
-                <div className="p-1">
-                  <Card>
-                    <CardContent className="flex flex-col aspect-video items-center justify-center p-6">
-                      <p className="text-4xl font-semibold">
-                        Cálculo {index + 1}
-                      </p>
-                      <p>
-                        S/ {(index + 1) * 10} <span>/hora</span>
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
       </div>
     </div>
   );
