@@ -50,12 +50,13 @@ export const FreeClassrooms = ({
           <AccordionContent className="flex flex-wrap gap-2 px-4 pt-1 pb-2">
             {classrooms.map((c) => (
               <Button
+                key={c}
                 size="sm"
                 variant="secondary"
                 className={cn("tabular-nums")}
                 asChild
               >
-                <Link href={`/${start.toISOString().split("T")[0]}/${c}`}>
+                <Link href={`/d/${start.toISOString().split("T")[0]}/${c}`}>
                   {c}
                 </Link>
               </Button>

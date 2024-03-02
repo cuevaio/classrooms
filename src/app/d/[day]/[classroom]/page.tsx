@@ -117,7 +117,8 @@ export default async function Day({
             { "row-span-1": end - start === 1 },
             { "row-span-2": end - start === 2 },
             { "row-span-3": end - start === 3 },
-            { "bg-secondary": data !== null }
+            { "bg-primary text-primary-foreground": data !== null },
+            { "bg-muted": data === null }
           )}
         >
           <div className="absolute -top-4 left-0">
@@ -131,7 +132,7 @@ export default async function Day({
             </p>
             <p
               className={cn({
-                "text-background group-hover:text-muted-foreground": data === null,
+                "text-muted group-hover:text-muted-foreground": data === null,
               })}
             >
               {data?.host?.name || "Freeee"}

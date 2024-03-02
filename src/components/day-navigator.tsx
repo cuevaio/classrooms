@@ -37,7 +37,7 @@ export const DayNavigator = ({
             .split("T")[0];
 
           return (
-            <div className="relative">
+            <div key={index} className="relative">
               <div
                 className={cn(
                   "absolute top-1 right-1/2 translate-x-1/2 text-[0.5rem] select-none",
@@ -53,7 +53,7 @@ export const DayNavigator = ({
                 className="rounded-full p-4"
                 asChild
               >
-                <Link href={`/${the_date}`}>
+                <Link href={`/d/${the_date}`}>
                   <span className="text-sm mt-2 font-bold">
                     {the_date.split("-")[2]}
                   </span>
