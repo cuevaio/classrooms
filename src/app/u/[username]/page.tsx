@@ -108,15 +108,15 @@ export default async function Page({ params }: UserPageProps) {
                   <div className="">
                     <Card>
                       <CardContent className="p-0">
-                        <AspectRatio ratio={16 / 9} className="bg-muted">
+                        <AspectRatio ratio={16 / 9} className="bg-muted rounded-t-lg overflow-hidden">
                           <Image
                             src={_class.thumbnail}
                             fill
                             alt="Class thumbnail"
-                            className="object-cover rounded-t-lg"
+                            className="object-cover "
                           />
                         </AspectRatio>
-                        <div className="bg-secondary p-2">
+                        <div className="p-2">
                           <p className="text-lg font-semibold">
                             {_class.name} {index + 1}
                           </p>
