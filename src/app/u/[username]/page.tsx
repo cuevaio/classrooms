@@ -37,6 +37,8 @@ export default async function Page({ params }: UserPageProps) {
       id: "1",
       name: "Repaso de Derivadas",
       price: 10,
+      rating: 4.2,
+      classesCount: 15,
       course: "Cálculo I",
       thumbnail:
         "https://i.ytimg.com/vi/mNhhOD3s6vs/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCKEWC3JSbUJgdRAZSNUgB9YSQqUg",
@@ -45,6 +47,8 @@ export default async function Page({ params }: UserPageProps) {
       id: "2",
       name: "Repaso de Integrales",
       price: 20,
+      rating: 4.7,
+      classesCount: 20,
       course: "Cálculo II",
       thumbnail:
         "https://i.ytimg.com/vi/rvW0ZrRDyd0/hq720.jpg?sqp=-oaymwEcCOgCEMoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDjD1eHcX6OL6lmBAe33SI-9co9rw",
@@ -75,21 +79,21 @@ export default async function Page({ params }: UserPageProps) {
             <Button
               variant="outline"
               size="icon"
-              className="h-5 w-5 rounded-full"
+              className="w-8 h-8 rounded-full"
             >
-              <InstagramIcon className="w-3 h-3" />
+              <InstagramIcon className="w-4 h-4" />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="h-5 w-5 rounded-full"
+              className="h-8 w-8 rounded-full"
             >
-              <XIcon className="w-2 h-2" />
+              <XIcon className="w-4 h-4" />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="h-5 w-5 rounded-full text-[0.5rem] font-bold"
+              className="h-8 w-8 rounded-full text-sm font-bold"
             >
               2+
             </Button>
@@ -99,7 +103,7 @@ export default async function Page({ params }: UserPageProps) {
       </div>
 
       <div className="px-4 py-2 space-y-1">
-        <h2 className="font-bold">Clases</h2>
+        <h2 className="font-bold">Asesorías</h2>
         <div className="px-8 flex flex-col items-center justify-center w-full">
           <Carousel className="w-full">
             <CarouselContent>
@@ -108,21 +112,40 @@ export default async function Page({ params }: UserPageProps) {
                   <div className="">
                     <Card>
                       <CardContent className="p-0">
-                        <AspectRatio ratio={16 / 9} className="bg-muted rounded-t-lg overflow-hidden">
+                        <AspectRatio
+                          ratio={16 / 9}
+                          className="bg-muted rounded-t-lg overflow-hidden relative"
+                        >
                           <Image
                             src={_class.thumbnail}
                             fill
                             alt="Class thumbnail"
                             className="object-cover "
                           />
+                          <div className="absolute bottom-0 left-0 bg-background px-2 rounded-tr text-sm font-medium">
+                            {_class.course}
+                          </div>
                         </AspectRatio>
-                        <div className="p-2">
+                        <div className="px-2 pb-1">
                           <p className="text-lg font-semibold">
                             {_class.name} {index + 1}
                           </p>
-                          <p>
-                            S/{_class.price} <span>/hora</span>
-                          </p>
+                          <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center">
+                              <StarIcon className="w-4 h-4 font-black fill-foreground mr-1" />
+                              <span className="mr-1">{_class.rating}</span>
+                              <span className="text-muted-foreground">
+                                ({_class.classesCount})
+                              </span>
+                            </div>
+                            <p>
+                              <span className="font-bold mr-0.5">
+                                <span className="text-xs">S</span>/
+                                {_class.price}
+                              </span>
+                              <span className="text-xs">la hora</span>
+                            </p>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -145,29 +168,23 @@ export default async function Page({ params }: UserPageProps) {
       <div className="px-4 py-2">
         <h2 className="font-bold">Estadísticas</h2>
         <div className="space-y-2 text-sm">
-          <div className="flex items-center space-x-1">
-            <StarIcon className="w-4 h-4 font-black" />
-            <div className="flex items-center">
-              <span>4.5</span>
-              <DotIcon className="w-3 h-3" />
-              <span>36 calificaciones</span>
-              <DotIcon className="w-3 h-3" />
-              <Link href="/cuevantn/reviews" className="underline">
-                6 reviews
-              </Link>
-            </div>
+          <div className="flex items-center">
+            <StarIcon className="w-4 h-4 font-black fill-foreground mr-1" />
+            <span className="font-bold">4.5</span>
+            <DotIcon className="w-3 h-3" />
+            <Link href="/cuevantn/reviews" className="underline">
+              6 reviews
+            </Link>
           </div>
           <div className="flex items-center space-x-1">
             <GraduationCapIcon className="w-4 h-4 font-black" />
-            <span>42 alumnos</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <ClockIcon className="w-4 h-4 font-black" />
-            <span>53 horas</span>
+            <span className="font-bold">35</span>
+            <span>alumnos</span>
           </div>
           <div className="flex items-center space-x-1">
             <BookAIcon className="w-4 h-4 font-black" />
-            <span>4 cursos</span>
+            <span className="font-bold">2</span>
+            <span>asesorías</span>
           </div>
         </div>
       </div>
