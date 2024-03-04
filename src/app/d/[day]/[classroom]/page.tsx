@@ -14,7 +14,7 @@ export default async function Day({
   let today_date = new Date(`${today}T12:00:00.000Z`);
   let today_end = new Date(today_date.getTime() + 14 * 36e5);
 
-  let classroom = await xata.db.classroom
+  let classroom = await xata.db.classrooms
     .filter({
       name: classroom_name,
     })
@@ -24,7 +24,7 @@ export default async function Day({
     notFound();
   }
 
-  let eventsPage = await xata.db.event
+  let eventsPage = await xata.db.events
     .select(["*", "classroom.id", "course.name", "course.code", "host.name"])
     .filter({
       $all: [
@@ -117,6 +117,15 @@ export default async function Day({
             { "row-span-1": end - start === 1 },
             { "row-span-2": end - start === 2 },
             { "row-span-3": end - start === 3 },
+            { "row-span-4": end - start === 4 },
+            { "row-span-5": end - start === 5 },
+            { "row-span-6": end - start === 6 },
+            { "row-span-7": end - start === 7 },
+            { "row-span-8": end - start === 8 },
+            { "row-span-9": end - start === 9 },
+            { "row-span-10": end - start === 10 },
+            { "row-span-11": end - start === 11 },
+            { "row-span-12": end - start === 12 },
             { "bg-primary text-primary-foreground": data !== null },
             { "bg-muted": data === null }
           )}

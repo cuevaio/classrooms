@@ -88,7 +88,7 @@ export default async function Page({ params }: UserPageProps) {
               size="icon"
               className="h-8 w-8 rounded-full"
             >
-              <XIcon className="w-4 h-4" />
+              <XIcon className="w-3 h-3" />
             </Button>
             <Button
               variant="outline"

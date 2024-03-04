@@ -62,6 +62,8 @@ test("Parsing event with course details and host", () => {
       section: 1,
       type: "TEO",
       group: 1,
+      isEvaluation: false,
+      isMentorship: false,
     },
     host: "George Gonzalez",
     isCourse: true,
@@ -79,6 +81,8 @@ test("Parsing event with course details and host", () => {
       section: 1,
       type: "TEO",
       group: 7,
+      isEvaluation: false,
+      isMentorship: false,
     },
     host: "Cesar Alfredo Bezada",
     isCourse: true,
@@ -95,6 +99,8 @@ test("Parsing event with course details", () => {
       section: 3,
       type: "TEO",
       group: 5,
+      isEvaluation: false,
+      isMentorship: false,
     },
     host: undefined,
     isCourse: true,
@@ -107,13 +113,10 @@ test("Parsing event with course details", () => {
   const result = parseEvent(event);
   expect(result).toEqual({
     course: {
-      code: undefined,
-      name: "Ecuaciones Diferenciales",
-      group: undefined,
-      section: 1,
-      type: "TEO",
+      code: "CC2101",
+      isEvaluation: true,
+      isMentorship: false,
     },
-    host: undefined,
     isCourse: true,
   });
 });
@@ -136,13 +139,25 @@ test("Parsing event with name only", () => {
   const result = parseEvent(event);
   expect(result).toEqual({
     course: {
-      code: undefined,
-      name: "Álgebra Lineal",
-      group: undefined,
-      section: undefined,
-      type: "TEO",
+      code: "CC1103",
+      isEvaluation: true,
+      isMentorship: false,
     },
-    host: undefined,
+    isCourse: true,
+  });
+});
+
+// ":EL3014 Introducción a Sistemas Embebidos Teoría 1,00 - Camacho Jiménez, Francisco José"
+test("Parsing event with course details and host", () => {
+  const event =
+    ":EL3014 Introducción a Sistemas Embebidos Teoría 1,00 - Camacho Jiménez, Francisco José";
+  const result = parseEvent(event);
+  expect(result).toEqual({
+    course: {
+      code: "EL3014",
+      isEvaluation: false,
+      isMentorship: false,
+    },
     isCourse: true,
   });
 });

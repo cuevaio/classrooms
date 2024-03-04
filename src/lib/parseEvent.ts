@@ -1,12 +1,49 @@
+let coursesHashMap: { [key: string]: string } = {
+  "calculo vect": "CC1104",
+  "ecuaciones dif": "CC2101",
+  "estadistica y prob": "IN2005",
+  "metodos num": "CC2104",
+  "optica & ond": "CC1123",
+  "optica y ondas": "CC1123",
+  "sistemas embeb": "EL3014",
+  "algebra lin": "CC1103",
+  "mecanica de solid": "CI2011",
+  "mecanica de suel": "CI0012",
+  "electricidad y magnet": "CC1122",
+  "ciencia de los mat": "CC1143",
+  "ciencia de mat": "CC1143",
+  "intro a la mecanica": "CC1121",
+  "introduccion a la mecanica": "CC1121",
+  "investigacion de operaciones ii": "IN3011",
+  "investigacion de operaciones i": "IN2003",
+  "calculo de una variable": "CC1101",
+  "dibujo y diseño para ingenieria": "ME2011",
+  "estadistica aplicada": "IN2005",
+  "curso vivencial css": "AM0018",
+  termodinamica: "CC2121",
+};
+
+let evaluationKeywords = [
+  "evaluacion",
+  "examen",
+  "pc",
+  "exf",
+  "practica calificada",
+];
+
+let mentorshipKeywords = ["asesoria", "tutoria", "mentoria"];
+
 type Event = { host?: string; isCourse: boolean } & (
   | {
       isCourse: true;
       course: {
-        code?: string;
-        name: string;
+        code: string;
+        name?: string;
         section?: number;
         type?: string;
         group?: number;
+        isEvaluation: boolean;
+        isMentorship: boolean;
       };
     }
   | { name: string; isCourse: false }
@@ -22,37 +59,25 @@ export function parseEvent(event: string): Event {
   let host: string | undefined;
   let name = event.replace(/^:/, "").replace(/--/g, "-");
 
-  // If the event includes "ExF", it's considered a course event
-  if (name.includes("ExF")) {
-    // If it also includes "Teoría", it's a theory course event
-    if (name.includes("Teoría")) {
-      const parts = name.split("Teoría");
-      name = parts[0].replace("ExF", "").trim().slice(0, -1).trim();
-      // Extract course details and return the parsed event object
-      return {
-        course: {
-          name,
-          group: undefined,
-          section: parseInt(parts[1].trim()),
-          type: "TEO",
-        },
-        host: undefined,
-        isCourse: true,
-      };
-    } else {
-      // If it doesn't include "Teoría", it's a general course event
-      name = name.replace("ExF", "").trim();
-      // Extract course details and return the parsed event object
-      return {
-        course: {
-          name,
-          group: undefined,
-          section: undefined,
-          type: "TEO",
-        },
-        host: undefined,
-        isCourse: true,
-      };
+  let normalizedName = name
+    .normalize("NFD")
+    .toLowerCase()
+    .replace(/[\u0300-\u036f]/g, "");
+
+  let isEvaluation = false;
+
+  for (let keyword of evaluationKeywords) {
+    if (normalizedName.includes(keyword)) {
+      isEvaluation = true;
+      break;
+    }
+  }
+
+  let isMentorship = false;
+  for (let keyword of mentorshipKeywords) {
+    if (normalizedName.includes(keyword)) {
+      isMentorship = true;
+      break;
     }
   }
 
@@ -85,13 +110,47 @@ export function parseEvent(event: string): Event {
           section: parseInt(section.replace("Sec.", "").trim()),
           type,
           group: parsedGroup,
+          isEvaluation: false,
+          isMentorship: false,
         },
         host: host === "" ? undefined : host,
         isCourse: true,
       };
     }
+  }
 
-    // If the event has 2 parts, it's a general non-course event
+  let courseHashMapKeys = Object.keys(coursesHashMap);
+  let courseHashMapValues = Object.values(coursesHashMap);
+
+  for (let value of courseHashMapValues) {
+    if (normalizedName.includes(value.toLowerCase())) {
+      return {
+        course: {
+          code: value,
+          isEvaluation,
+          isMentorship,
+        },
+        isCourse: true,
+      };
+    }
+  }
+
+  for (let key of courseHashMapKeys) {
+    if (normalizedName.includes(key)) {
+      return {
+        course: {
+          code: coursesHashMap[key],
+          isEvaluation,
+          isMentorship,
+        },
+        isCourse: true,
+      };
+    }
+  }
+
+  if (name.includes(" - ")) {
+    const parts = name.split(" - ");
+
     if (parts.length === 2) {
       const [eventName, hostName] = parts;
       name = eventName.trim();

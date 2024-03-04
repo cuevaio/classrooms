@@ -14,7 +14,7 @@ export async function getFreeClassrooms(day: string) {
       let desired_end = new Date(day_start);
       desired_end.setHours(desired_end.getHours() + i + 1);
 
-      let intercepting_events = await xata.db.event
+      let intercepting_events = await xata.db.events
         .select(["*", "classroom.*", "course.*"])
         .filter({
           $any: [

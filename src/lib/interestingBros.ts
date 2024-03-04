@@ -8,5 +8,5 @@ export const interestingBros = [
   ":Mantenimiento SSGG-Victor Enciso",
   ":Reserva - CE2A",
   ":Examen Final - Ecuaciones Diferenciales",
-  ":EL3014 Introducción a Sistemas Embebidos Teoría 1,00 - Camacho Jiménez, Francisco José",
+  ":EL3015 Introducción a Sistemas Embebidos Teoría 1,00 - Camacho Jiménez, Francisco José",
 ];
