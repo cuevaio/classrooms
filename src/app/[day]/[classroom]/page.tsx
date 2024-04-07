@@ -72,7 +72,8 @@ export default async function Day({
           Number(
             e.start
               ?.toLocaleTimeString("en-US", {
-                hour: "2-digit",
+                hour: "numeric",
+                hour12: false,
                 timeZone: "America/Lima",
               })
               .split(":")[0]
@@ -103,14 +104,6 @@ export default async function Day({
       i++;
     }
   }
-
-  let yesterday_date = new Date(today_date);
-  yesterday_date.setDate(yesterday_date.getDate() - 1);
-  let yesterday = yesterday_date.toISOString().split("T")[0];
-
-  let tomorrow_date = new Date(today_date);
-  tomorrow_date.setDate(tomorrow_date.getDate() + 1);
-  let tomorrow = tomorrow_date.toISOString().split("T")[0];
 
   return (
     <div>
