@@ -8,8 +8,8 @@ import { parseEvent } from "@/lib/parseEvent";
 const xata = getXataClient();
 
 export const GET = async () => {
-  let rawStart = "01/01/2023";
-  let rawEnd = "15/03/2024";
+  let rawStart = "15/03/2024";
+  let rawEnd = "15/04/2024";
 
   let classrooms_fetched = 0;
 
@@ -122,6 +122,8 @@ export const GET = async () => {
             },
           }
         );
+
+        console.log(response);
 
         if (!response.ok) {
           throw new Error("Failed to fetch events from UTEC API");

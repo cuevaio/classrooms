@@ -5,9 +5,11 @@ import { Button } from "./ui/button";
 export const DayNavigator = ({
   today,
   today_date,
+  classroom,
 }: {
   today: string;
   today_date: Date;
+  classroom?: string;
 }) => {
   let first_day_of_week = new Date(
     today_date.getTime() - today_date.getDay() * 24 * 60 * 60 * 1000
@@ -24,7 +26,7 @@ export const DayNavigator = ({
 
   return (
     <div className="flex flex-col items-center px-4">
-      <div className="text-sm flex space-x-2">
+      <div className="text-sm flex space-x-2 mb-2">
         <p className="font-bold">{today_month}</p>
         <p>{year}</p>
       </div>
@@ -53,7 +55,7 @@ export const DayNavigator = ({
                 className="rounded-full p-4"
                 asChild
               >
-                <Link href={`/d/${the_date}`}>
+                <Link href={`/${the_date}/` + (classroom ? classroom : "")}>
                   <span className="text-sm mt-2 font-bold">
                     {the_date.split("-")[2]}
                   </span>

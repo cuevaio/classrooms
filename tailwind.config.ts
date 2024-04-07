@@ -21,7 +21,7 @@ const config = {
     extend: {
       gridTemplateRows: {
         // Simple 14 row grid
-        "14": "repeat(14, minmax(0, 1fr))",
+        "15": "repeat(15, minmax(0, 1fr))",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -78,7 +78,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
       },
     },
   },
