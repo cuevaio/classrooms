@@ -149,6 +149,18 @@ export default async function Day({
               { "bg-muted text-foreground": data !== null },
               { "bg-muted/10": data === null }
             )}
+            style={{
+              backgroundImage:
+                data === null
+                  ? `repeating-linear-gradient(
+                    45deg,
+                    hsl(var(--muted) / 0.1),
+                    hsl(var(--muted) / 0.1) 10px, 
+                    hsl(var(--background)) 10px,
+                    hsl(var(--background)) 20px
+                  )`
+                  : undefined,
+            }}
           >
             <div className="absolute -top-4 left-0">
               <Badge variant="outline" className="bg-background">
