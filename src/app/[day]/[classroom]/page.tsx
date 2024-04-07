@@ -146,8 +146,8 @@ export default async function Day({
               { "row-span-10": end - start === 10 },
               { "row-span-11": end - start === 11 },
               { "row-span-12": end - start === 12 },
-              { "bg-primary text-primary-foreground": data !== null },
-              { "bg-muted": data === null }
+              { "bg-muted text-foreground": data !== null },
+              { "bg-muted/10": data === null }
             )}
           >
             <div className="absolute -top-4 left-0">

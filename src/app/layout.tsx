@@ -28,7 +28,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <div className="flex bg-foreground text-background p-2 items-center mb-2">
+          <div className="flex p-2 items-center mb-2 bg-foreground">
             <div className="flex-none w-16">
               <Image
                 src="/classrooms.png"
@@ -39,11 +39,11 @@ export default function RootLayout({
               />
             </div>
             <div className="flex-1 text-center">
-              <h1 className="text-xl font-bold font-mono animate-pulse">
+              <h1 className="text-xl font-bold font-mono animate-pulse text-background">
                 classrooms
               </h1>
             </div>
-            <div className="flex-none w-16 flex justify-end">
+            <div className="flex-none w-16 flex justify-end invert">
               <ThemePicker />
             </div>
           </div>
