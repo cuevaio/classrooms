@@ -57,8 +57,6 @@ export default async function Day({
       consistency: "eventual",
     });
 
-  console.log(eventsPage.records);
-
   let _events: {
     start: number;
     end: number;
@@ -73,9 +71,9 @@ export default async function Day({
         return (
           Number(
             e.start
-              ?.toLocaleTimeString("es-PE", {
-                hour: "numeric",
-                hour12: false,
+              ?.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                timeZone: "America/Lima",
               })
               .split(":")[0]
           ) === i

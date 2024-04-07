@@ -42,7 +42,7 @@ export const FreeClassrooms = ({
             <div className=" flex justify-between w-full">
               <Badge
                 variant="outline"
-                className={cn({
+                className={cn("font-mono", {
                   "border-green-400/90 text-green-400/90":
                     classrooms.length > 10,
                   "border-yellow-400/90 text-yellow-400/90":
@@ -53,9 +53,9 @@ export const FreeClassrooms = ({
                     classrooms.length === 0,
                 })}
               >
-                {start.toLocaleTimeString("es-PE", {
+                {start.toLocaleTimeString("en-US", {
                   hour: "2-digit",
-                  minute: "2-digit",
+                  timeZone: "America/Lima",
                 })}
               </Badge>
             </div>

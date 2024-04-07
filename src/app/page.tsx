@@ -8,10 +8,6 @@ export default async function Home() {
     timeZone: "America/Lima",
   });
 
-  let limaTime = now.toLocaleTimeString("en-US", {
-    timeZone: "America/Lima",
-  });
-
   let [today_month, today_day, today_year] = limaDateTime.split("/");
   today_month = today_month.padStart(2, "0");
   today_day = today_day.padStart(2, "0");
