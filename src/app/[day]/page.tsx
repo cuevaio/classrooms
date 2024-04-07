@@ -17,3 +17,22 @@ export default async function Day({
     </div>
   );
 }
+
+export function generateStaticParams() {
+  let today = new Date();
+
+  let start = new Date(today.getTime() - 15 * 24 * 60 * 60 * 1000); // today - 15 days
+  let end = new Date(today.getTime() + 15 * 24 * 60 * 60 * 1000); // today + 15 days
+
+  let params: {
+    day: string;
+  }[] = [];
+
+  for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
+    params.push({
+      day: date.toISOString().split("T")[0],
+    });
+  }
+
+  return params;
+}

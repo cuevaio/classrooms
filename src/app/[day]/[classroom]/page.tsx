@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { DayNavigator } from "@/components/day-navigator";
 import { Button } from "@/components/ui/button";
+
+import { classrooms as clx } from "@/lib/classrooms";
+
 import {
   ChevronLeftIcon,
   ComponentIcon,
@@ -195,4 +198,27 @@ export default async function Day({
       </div>
     </div>
   );
+}
+
+export function generateStaticParams() {
+  let today = new Date();
+
+  let start = new Date(today.getTime() - 15 * 24 * 60 * 60 * 1000); // today - 15 days
+  let end = new Date(today.getTime() + 15 * 24 * 60 * 60 * 1000); // today + 15 days
+
+  let params: {
+    day: string;
+    classroom: string;
+  }[] = [];
+
+  for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+    for (let c of clx) {
+      params.push({
+        day: d.toISOString().split("T")[0],
+        classroom: c.name,
+      });
+    }
+  }
+
+  return params;
 }
