@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 import { Providers } from "./providers";
 import { ThemePicker } from "@/components/theme-picker";
+import { Fathom } from "./fathom";
 
 export const metadata: Metadata = {
   title: "Classrooms",
@@ -23,11 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <Script
-        src="https://cdn.usefathom.com/script.js"
-        data-site="NJSRRBSO"
-        defer
-      />
       <body
         className={cn(
           GeistSans.variable,
@@ -35,6 +31,7 @@ export default function RootLayout({
           "bg-background font-sans antialiased min-h-screen overflow-y-scroll"
         )}
       >
+        <Fathom />
         <Providers>
           <div className="flex p-2 items-center mb-2 bg-foreground">
             <div className="flex-none w-16">
