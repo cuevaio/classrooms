@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -21,6 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <Script
+        src="https://cdn.usefathom.com/script.js"
+        data-site="NJSRRBSO"
+        defer
+      />
       <body
         className={cn(
           GeistSans.variable,
