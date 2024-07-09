@@ -8,8 +8,8 @@ import { parseEvent } from "@/lib/parseEvent";
 const xata = getXataClient();
 
 export const GET = async () => {
-  let rawStart = "15/05/2024";
-  let rawEnd = "15/07/2024";
+  let rawStart = "15/06/2024";
+  let rawEnd = "15/08/2024";
 
   let classrooms_fetched = 0;
 
@@ -100,11 +100,8 @@ export const GET = async () => {
             headers: {
               "X-Auth-Token": xAuthToken,
               Cookie: `sessionId=${sessionId}`,
-
               Accept: "application/json, text/plain, */*",
-              "Accept-Encoding": "gzip, deflate, br",
               "Accept-Language": "en-US,en;q=0.6",
-              "Content-Length": "70",
               "Content-Type": "application/json",
               Origin: "https://reserva-intranet.utec.edu.pe",
               Referer: "https://reserva-intranet.utec.edu.pe/reserva/aulalibre",
@@ -115,7 +112,6 @@ export const GET = async () => {
               "Sec-Fetch-Dest": "empty",
               "Sec-Fetch-Mode": "cors",
               "Sec-Fetch-Site": "same-origin",
-              "Sec-Gpc": "1",
               "User-Agent":
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
               cache: "no-store",
@@ -123,8 +119,7 @@ export const GET = async () => {
           }
         );
 
-        console.log(response);
-
+        console.log(classroom);
         if (!response.ok) {
           throw new Error("Failed to fetch events from UTEC API");
         }

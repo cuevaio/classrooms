@@ -25,7 +25,12 @@ export const FreeClassrooms = ({
   };
 }) => (
   <>
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion
+      type="single"
+      collapsible
+      className="w-full group"
+      id="accordion"
+    >
       {data.free.map(({ classrooms, start }) => (
         <AccordionItem
           key={start.toISOString()}
@@ -44,13 +49,15 @@ export const FreeClassrooms = ({
                 variant="outline"
                 className={cn("font-mono", {
                   "border-green-400/90 text-green-400/90":
-                    classrooms.length > 10,
+                    classrooms.filter((x) => x.startsWith("A")).length > 10,
                   "border-yellow-400/90 text-yellow-400/90":
-                    classrooms.length > 5 && classrooms.length <= 10,
+                    classrooms.filter((x) => x.startsWith("A")).length > 5 &&
+                    classrooms.filter((x) => x.startsWith("A")).length <= 10,
                   "border-red-400/90 text-red-400/90":
-                    classrooms.length > 0 && classrooms.length <= 5,
+                    classrooms.filter((x) => x.startsWith("A")).length > 0 &&
+                    classrooms.filter((x) => x.startsWith("A")).length <= 5,
                   "border-muted-foreground/50 text-muted-foreground/50":
-                    classrooms.length === 0,
+                    classrooms.filter((x) => x.startsWith("A")).length === 0,
                 })}
               >
                 {start.toLocaleTimeString("en-US", {
@@ -61,20 +68,78 @@ export const FreeClassrooms = ({
             </div>
           </AccordionTrigger>
 
-          <AccordionContent className="flex flex-wrap gap-2 px-4 pt-1 pb-2">
-            {classrooms.map((c) => (
-              <Button
-                key={c}
-                size="sm"
-                variant="secondary"
-                className={cn("tabular-nums")}
-                asChild
-              >
-                <Link href={`/${start.toISOString().split("T")[0]}/${c}`}>
-                  {c}
-                </Link>
-              </Button>
-            ))}
+          <AccordionContent className="px-4 pt-1 pb-2 space-y-4">
+            {classrooms.filter((x) => x.startsWith("A")).length && (
+              <>
+                <div className="flex flex-wrap gap-2 ">
+                  {classrooms
+                    .filter((x) => x.startsWith("A"))
+                    .map((c) => (
+                      <Button
+                        key={c}
+                        size="sm"
+                        variant="secondary"
+                        className={cn("tabular-nums")}
+                        asChild
+                      >
+                        <Link
+                          href={`/${start.toISOString().split("T")[0]}/${c}`}
+                        >
+                          {c}
+                        </Link>
+                      </Button>
+                    ))}
+                </div>
+              </>
+            )}
+
+            {classrooms.filter((x) => x.startsWith("L")).length ? (
+              <>
+                <div className="flex-wrap gap-2 group-data-[show-L=true]:flex hidden transition-all">
+                  {classrooms
+                    .filter((x) => x.startsWith("L"))
+                    .map((c) => (
+                      <Button
+                        key={c}
+                        size="sm"
+                        variant="secondary"
+                        className={cn("tabular-nums")}
+                        asChild
+                      >
+                        <Link
+                          href={`/${start.toISOString().split("T")[0]}/${c}`}
+                        >
+                          {c}
+                        </Link>
+                      </Button>
+                    ))}
+                </div>
+              </>
+            ) : null}
+
+            {classrooms.filter((x) => x.startsWith("M")).length ? (
+              <>
+                <div className="flex-wrap gap-2 group-data-[show-M=true]:flex hidden transition-all">
+                  {classrooms
+                    .filter((x) => x.startsWith("M"))
+                    .map((c) => (
+                      <Button
+                        key={c}
+                        size="sm"
+                        variant="secondary"
+                        className={cn("tabular-nums")}
+                        asChild
+                      >
+                        <Link
+                          href={`/${start.toISOString().split("T")[0]}/${c}`}
+                        >
+                          {c}
+                        </Link>
+                      </Button>
+                    ))}
+                </div>
+              </>
+            ) : null}
 
             {classrooms.length === 0 && (
               <p className="text-sm text-muted-foreground">

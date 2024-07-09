@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+curl --request GET \
+ --url 'https://api.utec.edu.pe/reserva-api/filtro/aula/reservable/tipoaula?codsede=2&codtipoaula=0' \
+ --header 'X-Auth-Token: eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE3MjAxMjMxNDIsInN1YiI6ImFudGhvbnkuY3VldmFAdXRlYy5lZHUucGUiLCJhdWRpZW5jZSI6InVuZGV0ZXJtaW5lZCIsImNyZWF0ZWQiOjE3MjAxMDg3NDIyMjF9.5bFcvJ719jIrhmssjrxGw1mctN0eWg_mildF1S0OVSP6xWBlVxI2UkmBpddJzxKvb8qFPzN25SRBkeV38Muxgw'

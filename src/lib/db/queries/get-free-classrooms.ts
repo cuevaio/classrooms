@@ -1,4 +1,4 @@
-import { classrooms } from "@/lib/constants/classrooms";
+import { classrooms } from "@/lib/classrooms";
 import { getXataClient } from "@/lib/db";
 
 const xata = getXataClient();
