@@ -1,4 +1,4 @@
-import { FreeClassrooms } from "@/components/free-classrooms/index";
+import { FreeClassrooms } from "@/components/free-classrooms";
 import { getFreeClassrooms } from "@/lib/db/queries/get-free-classrooms";
 
 import { DayNavigator } from "@/components/day-navigator";

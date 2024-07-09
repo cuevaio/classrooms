@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
+
 import { Switch } from "../ui/switch";
 import { Label } from "../ui/label";
-import { useLocalStorage } from "@uidotdev/usehooks";
+import { useLocalStorage } from "usehooks-ts";
 
 export const DynamicForFreeClassrooms = () => {
   const [showM, setShowM] = useLocalStorage("showM", false);
