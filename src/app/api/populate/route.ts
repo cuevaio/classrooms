@@ -8,8 +8,8 @@ import { parseEvent } from "@/lib/parseEvent";
 const xata = getXataClient();
 
 export const GET = async () => {
-  let rawStart = "15/06/2024";
-  let rawEnd = "15/08/2024";
+  let rawStart = "15/08/2024";
+  let rawEnd = "15/10/2024";
 
   let classrooms_fetched = 0;
 
