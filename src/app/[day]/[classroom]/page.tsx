@@ -36,6 +36,7 @@ export default async function Day({
     notFound();
   }
 
+
   let eventsPage = await xata.db.events
     .select(["*", "classroom.id", "course.name", "course.code", "host.name"])
     .filter({
@@ -60,11 +61,14 @@ export default async function Day({
       consistency: "eventual",
     });
 
+
   let _events: {
     start: number;
     end: number;
     data: (typeof eventsPage.records)[0] | null;
   }[] = [];
+
+
 
   // from 7:00 to 21:00
   let i = 7;
